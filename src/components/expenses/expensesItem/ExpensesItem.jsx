@@ -29,10 +29,10 @@ export default function ExpensesItem({
       </div>
       {isOpen && (
         <Modal handleDelete={handleDelete}>
-          <h1>очурсон олосун</h1>
+          <h1>вы точно хотите удалить?</h1>
           <div className="modal-delete">
-            <Button onClick={() => handleDelete(id)}>олгум келтат</Button>
-            <Button onClick={handleClick}>олгум келбей жатат</Button>
+            <Button onClick={() => handleDelete(id)}>да</Button>
+            <Button className="modaldelete-btn" onClick={handleClick}>нет</Button>
           </div>
         </Modal>
       )}
@@ -41,7 +41,9 @@ export default function ExpensesItem({
 }
 
 const GlobalStyle = createGlobalStyle`
-
+.modaldelete-btn {
+  background-color: red ;
+}
 .modal-delete{
   display: flex;
   margin-top: 20px;

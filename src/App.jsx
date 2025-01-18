@@ -2,12 +2,15 @@ import { useState } from "react";
 import Expenses from "./components/expenses/Expenses";
 import { NewExpense } from "./components/new-expense/NewExpense";
 
+import Header from "./components/header/Header";
 import { createGlobalStyle } from "styled-components";
+import Form from "./components/form/Form";
+import Users from "./components/users/Users";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
-  console.log("expenses: ", expenses);
-
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [user, setUser] = useState(false);
   const handleAddExpense = (expense) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
   };
@@ -17,17 +20,40 @@ function App() {
       prevExpenses.filter((expense) => expense.id !== id)
     );
   }
+  const handleForm = () => {
+    setIsFormVisible(!isFormVisible);
+  };
 
+  const handleUser = () => {
+    setUser(true);
+  };
+  const userHandle = () => {
+    setUser(false);
+  };
   return (
     <>
       <StyleApp />
-
-      <div className="continer-app">
-        <div className="app-expenses">
-          <NewExpense onAddExpense={handleAddExpense} />
-          <Expenses expenses={expenses} handleDelete={handleDelete} />
+      {isFormVisible ? (
+        <div>
+          <Header
+            handleForm={handleForm}
+            handleUser={handleUser}
+            userHandle={userHandle}
+          />
+          {user ? (
+            <Users />
+          ) : (
+            <div className="continer-app">
+              <div className="app-expenses">
+                <NewExpense onAddExpense={handleAddExpense} />
+                <Expenses expenses={expenses} handleDelete={handleDelete} />
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <Form handleForm={handleForm} />
+      )}
     </>
   );
 }
